@@ -1,0 +1,7 @@
+<header>
+    <span ng-show="user().username">Hi, {{user().username}} &nbsp; <a href="javascript:;" ng-click="userLogout()">Logout</a></span>
+    <ul class="menu" ng-hide="user().username">
+        <li><a href="#/login">Login</a></li>
+        <li><a href="#/register">Register</a></li>
+    </ul>
+</header>

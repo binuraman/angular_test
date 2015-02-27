@@ -1,0 +1,33 @@
+<div class="well well-lg col-sm-4 col-sm-offset-4">
+    <form name="logregform" id="logregform" novalidate autocomplete="off">
+        <p><input ng-change="resetFormSubmittedAndErrors('username')" type="email" class="form-control input-lg" placeholder="Email" ng-model="logreguser.username" name="username" autocomplete="off" required></p>
+        <div class="alert alert-danger" role="alert" ng-show="errorDisplayAllowed && logregform.username.$invalid">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            <span class="sr-only">Error:</span>
+            Enter a valid email address
+        </div>
+        <div class="alert alert-danger" role="alert" ng-show="formResponseFailure.username">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            <span class="sr-only">Error:</span>
+            {{formResponseFailure.username.errorString}}
+        </div>
+        <p><input ng-change="resetFormSubmittedAndErrors('password')" type="password" maxlength="15" class="form-control input-lg" placeholder="Password" ng-model="logreguser.password" name="password" autocomplete="off" required ng-pattern="/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,15}$/"></p>
+        <div class="alert alert-danger" role="alert" ng-show="errorDisplayAllowed && logregform.password.$invalid">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            <span class="sr-only">Error:</span>
+            Password should contain one lower case letter, one upper case letter and one number. Should be 8-15 characters in length.
+        </div>
+        <div class="alert alert-danger" role="alert" ng-show="formResponseFailure.password">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            <span class="sr-only">Error:</span>
+            {{formResponseFailure.password.errorString}}
+        </div>
+        <br/>
+        <div class="alert alert-danger" role="alert" ng-show="formResponseFailure.mainform">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            <span class="sr-only">Error:</span>
+            {{formResponseFailure.mainform.errorString}}
+        </div>
+        <p><a class="btn btn-primary btn-lg btn-block" href="javascript:;" role="button" ng-click="update(logreguser) && userRegister()" ng-disabled="formSubmitted">Register</a></p>
+    </form>
+</div>
