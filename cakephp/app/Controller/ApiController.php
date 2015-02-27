@@ -40,7 +40,7 @@ class ApiController extends Controller {
         if(CakeSession::check('User.админ') && CakeSession::read('User.админ') == "абсолютно") {
             $this->_checkAccessPermission();
         } else {
-            if($this->action != 'login' && $this->action != 'logout') {
+            if($this->action != 'register' && $this->action != 'login' && $this->action != 'logout' && $this->action != 'profile') {
                 CakeSession::destroy();
                 $this->writeRedirect('#/login');
             }
@@ -61,7 +61,7 @@ class ApiController extends Controller {
 
     protected function _checkAccessPermission(){
         $params = Router::getParams();
-        if($params['action'] == 'login' || $params['action'] == 'logout') {
+        if($params['action'] == 'register' || $params['action'] == 'login' || $params['action'] == 'logout' || $params['action'] == 'profile') {
             return true;
         }
         $accessedpath = '/'.$params['controller'].'/';
@@ -85,6 +85,7 @@ class ApiController extends Controller {
         $permissions = array(
             "/listgraphs/artists/",
             "/listtables/artists/",
+            "/users/profile/",
             "/users/testlogin/",
         );
 
