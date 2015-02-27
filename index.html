@@ -1,0 +1,44 @@
+<!doctype html>
+<!--[if IE 7]>    <html class="ie7" lang="en" id="ng-app" ng-app="myApp"> <![endif]-->
+<!--[if IE 8]>    <html class="ie8" lang="en" id="ng-app" ng-app="myApp"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html lang="en" id="ng-app" ng-app="myApp">
+<!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <title>AngularJS Test</title>
+    <link rel="stylesheet" href="angular/app/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="angular/app/css/app.css"/>
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script type="text/javascript">
+        var frontEndAppPath = "angular/app/", backEndAppPath = "cakephp/app/", backEndAPIPath = "cakephp/api/", backEndCakePath = "cakephp/";
+    </script>
+    <script type="text/javascript" src="angular/app/lib/json3.min.js"></script>
+    <!--[if lte IE 8]>
+    <script>
+        document.createElement('ng-include');
+        document.createElement('ng-pluralize');
+        document.createElement('ng-view');
+        document.createElement('body-wrap');
+        document.createElement('ng-if');
+    </script>
+    <![endif]-->
+</head>
+<body>
+
+<!-- In production use:
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
+-->
+<script src="angular/app/lib/angular/angular.min.js"></script>
+<script src="angular/app/lib/angular/angular-route.min.js"></script>
+<script src="angular/app/js/app.js"></script>
+<script src="angular/app/js/services.js"></script>
+<script src="angular/app/js/controllers.js"></script>
+<script src="angular/app/js/filters.js"></script>
+<script src="angular/app/js/directives.js"></script>
+</body>
+</html>
