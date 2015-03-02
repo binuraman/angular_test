@@ -167,7 +167,7 @@ angular.module('myApp.controllers', [])
                             }
                         }
                         if(notEmpty) {
-                            userResponse[i].value = '"' + Core.escapeHTML(userResponse[i].value.join('", "')) + '"';
+                            userResponse[i].value = Core.escapeHTML('"' + userResponse[i].value.join('", "') + '"');
                         } else {
                             userResponse[i].value = "";
                         }

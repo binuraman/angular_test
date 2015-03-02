@@ -14,8 +14,4 @@ angular.module('myApp.filters', [])
             return String(subject).replace(pattern, replaceby);
         }
     }])
-    .filter('interpolate', ['version', function(version) {
-        return function(text) {
-            return String(text).replace(/\%VERSION\%/mg, version);
-        }
-    }]);
+;
