@@ -10,6 +10,18 @@ function addRandomSeed(data) {
     return data;
 }
 
+function reverseSanitize(data){
+    if(typeof data == 'string'){
+        return angular.element('<div>').html(data).text();
+    } else if(data instanceof Object){
+        for(var i in data){
+            data[i] = reverseSanitize(data[i]);
+        }
+        return data;
+    }
+    return data;
+}
+
 // Declare app level module which depends on filters, and services
 angular.module('myApp', [
         'ngRoute',
@@ -21,6 +33,9 @@ angular.module('myApp', [
     .config(['$routeProvider', function($routeProvider) {
         $routeProvider.when('/login', {templateUrl: frontEndAppPath+'partials/login.html', controller: 'LogRegController'});
         $routeProvider.when('/register', {templateUrl: frontEndAppPath+'partials/register.html', controller: 'LogRegController'});
+        $routeProvider.when('/questionnaire', {templateUrl: frontEndAppPath+'partials/questionnaire.html', controller: 'QuestionnaireController'});
+        $routeProvider.when('/scorecard', {templateUrl: frontEndAppPath+'partials/scorepage.html', controller: 'ScorePageController'});
+        $routeProvider.when('/scorecard/:testid', {templateUrl: frontEndAppPath+'partials/scorepage.html', controller: 'ScorePageController'});
         $routeProvider.when('/', {templateUrl: frontEndAppPath+'partials/dashboard.html', controller: 'Dashboard'});
         $routeProvider.otherwise({redirectTo: '/'});
     }]);

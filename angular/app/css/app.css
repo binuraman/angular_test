@@ -33,16 +33,16 @@
 
 /* ------------- */
 
-.btn-primary {
-    background-color: #9c59b6;
-    border-color: #873773;
-}
-.btn-primary:hover,
+.btn-primary,
 .btn-primary:focus,
 .btn-primary.focus,
 .btn-primary:active,
 .btn-primary.active,
 .open > .dropdown-toggle.btn-primary {
+    background-color: #9c59b6;
+    border-color: #873773;
+}
+.btn-primary:hover {
     background-color: #b1a2be;
     border-color: #876f85;
 }
@@ -68,6 +68,11 @@ fieldset[disabled] .btn-primary.active {
     border-color: #873773;
 }
 
+.well{
+    background-color: #eee;
+    border: 1px solid #d5d5d5;
+}
+
 header{
     margin-bottom: 100px;
     text-align: center;
@@ -76,4 +81,84 @@ header{
 footer{
     margin-top: 100px;
     text-align: center;
+}
+
+.questionnaire-question {
+    display: block;
+    text-align: center;
+}
+
+.questionnaire-question pre {
+    text-align: left;
+}
+
+.answer-options label{
+    font-weight: normal;
+}
+
+input[type=checkbox]:not(old),
+input[type=radio   ]:not(old){
+    width     : 2em;
+    margin    : 0;
+    padding   : 0;
+    font-size : 1em;
+    opacity   : 0;
+}
+input[type=checkbox]:not(old) + label,
+input[type=radio   ]:not(old) + label{
+    display      : inline-block;
+    margin-left  : -2em;
+    line-height  : 1.3em;
+}
+input[type=checkbox]:not(old) + label > span,
+input[type=radio   ]:not(old) + label > span{
+    display          : inline-block;
+    width            : 0.875em;
+    height           : 0.875em;
+    margin           : 0.25em 0.5em 0.25em 0.25em;
+    border           : 0.0625em solid rgb(192,192,192);
+    border-radius    : 0.25em;
+    background       : rgb(224,224,224);
+    background-image :    -moz-linear-gradient(rgb(255,255,255),rgb(255,255,255));
+    background-image :     -ms-linear-gradient(rgb(255,255,255),rgb(255,255,255));
+    background-image :      -o-linear-gradient(rgb(255,255,255),rgb(255,255,255));
+    background-image : -webkit-linear-gradient(rgb(255,255,255),rgb(255,255,255));
+    background-image :         linear-gradient(rgb(255,255,255),rgb(255,255,255));
+    vertical-align   : bottom;
+}
+input[type=radio   ]:not(old) + label > span {
+    border-radius    : 0.50em;  /* for making round */
+}
+input[type=checkbox]:not(old):checked + label > span,
+input[type=radio   ]:not(old):checked + label > span{
+    background-image :    -moz-linear-gradient(rgb(255,255,255),rgb(255,255,255));
+    background-image :     -ms-linear-gradient(rgb(255,255,255),rgb(255,255,255));
+    background-image :      -o-linear-gradient(rgb(255,255,255),rgb(255,255,255));
+    background-image : -webkit-linear-gradient(rgb(255,255,255),rgb(255,255,255));
+    background-image :         linear-gradient(rgb(255,255,255),rgb(255,255,255));
+}
+input[type=checkbox]:not(old):checked + label > span:before{
+    content     : '✓';
+    display     : block;
+    width       : 1em;
+    color       : rgb(156,89,182);
+    font-size   : 0.875em;
+    line-height : 1em;
+    text-align  : center;
+    text-shadow : 0 0 0.0714em rgb(117,52,142);
+    font-weight : bold;
+}
+input[type=radio]:not(old):checked + label > span > span{
+    display          : block;
+    width            : 0.5em;
+    height           : 0.5em;
+    margin           : 0.125em; /*0.171875em;*/
+    border           : 0.0625em solid rgb(117,52,142);
+    border-radius    : 0.50em;  /* 0.125em for square */
+    background       : rgb(156,89,182);
+    background-image :    -moz-linear-gradient(rgb(181,120,205),rgb(156,89,182));
+    background-image :     -ms-linear-gradient(rgb(181,120,205),rgb(156,89,182));
+    background-image :      -o-linear-gradient(rgb(181,120,205),rgb(156,89,182));
+    background-image : -webkit-linear-gradient(rgb(181,120,205),rgb(156,89,182));
+    background-image :         linear-gradient(rgb(181,120,205),rgb(156,89,182));
 }

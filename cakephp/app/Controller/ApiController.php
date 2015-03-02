@@ -42,7 +42,7 @@ class ApiController extends Controller {
         } else {
             if($this->action != 'register' && $this->action != 'login' && $this->action != 'logout' && $this->action != 'profile') {
                 CakeSession::destroy();
-                $this->writeRedirect('#/login');
+                $this->writeRedirect('#/login', 'Session already expired. Please login again.');
             }
         }
     }
@@ -83,8 +83,9 @@ class ApiController extends Controller {
 
     protected function _permissions() {
         $permissions = array(
-            "/listgraphs/artists/",
-            "/listtables/artists/",
+            "/dashboard/index/",
+            "/dashboard/questionnaire/",
+            "/dashboard/scoretable/",
             "/users/profile/",
             "/users/testlogin/",
         );
@@ -108,6 +109,12 @@ class ApiController extends Controller {
         return $this->postdata;
     }
 
+    protected function displayAll($newStatus = null){
+        if($newStatus) $this->displayAll = true;
+        if($newStatus === false || $newStatus === 0 || $newStatus === '0') $this->displayAll = false;
+        return $this->displayAll;
+    }
+
     protected function errorHandler($code, $description, $file = null, $line = null, $context = null) {
         if(error_reporting() == 0) {
             return;
@@ -128,7 +135,8 @@ class ApiController extends Controller {
         $this->autoRender = false;
         $this->populateUserData();
         header('Content-type: application/json');
-        echo json_encode(Sanitize::clean($this->outputData));
+//        echo json_encode(Sanitize::clean($this->outputData));
+        echo json_encode($this->outputData);
         die();
     }
 
@@ -166,4 +174,21 @@ class ApiController extends Controller {
         die();
     }
     /* EOF Core Methods */
+
+    public function getDBCompatibleDate($date, $dateformat = ''){
+        if(strtolower($dateformat) == 'd/m/y') $dateformat = 'd/m/Y'; else $dateformat = 'm/d/Y';
+
+        if($dateformat == 'd/m/Y') {
+            $db_compatible_date = preg_replace("/^([0-9]{1,2})[\/|-]([0-9]{1,2})[\/|-]([0-9]{4})$/i", "$3-$2-$1", $date);
+        } else {
+            $db_compatible_date = preg_replace("/^([0-9]{1,2})[\/|-]([0-9]{1,2})[\/|-]([0-9]{4})$/i", "$3-$1-$2", $date);
+        }
+        $db_compatible_date = preg_replace("/^([0-9]{4})[\/|-]([0-9]{1,2})[\/|-]([0-9]{1,2})$/i", "$1-$2-$3", $db_compatible_date);
+
+        return $db_compatible_date;
+    }
+
+    public function getDBCompatibleFirstDayOfMonth($date, $dateformat = ''){
+        return preg_replace("/^([0-9]{4})[\/|-]([0-9]{1,2})[\/|-]([0-9]{1,2})$/i", "$1-$2-01", $this->getDBCompatibleDate($date, $dateformat));
+    }
 }

@@ -1,5 +1,10 @@
 <div class="panel panel-default well-lg col-sm-6 col-sm-offset-3">
     <div class="panel-body">
-        <p><a class="btn btn-primary btn-lg btn-block" href="javascript:;" role="button" ng-click="update(logreguser) && userRegister()" ng-disabled="formSubmitted">Take a new test</a></p>
+        <div class="alert alert-danger" role="alert" ng-show="formResponseFailure.mainform">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            <span class="sr-only">Error:</span>
+            {{formResponseFailure.mainform.errorString}}
+        </div>
+        <p><a class="btn btn-primary btn-lg btn-block" href="javascript:;" ng-click="startQuistionnaire()" role="button">Take a new test</a></p>
     </div>
 </div>

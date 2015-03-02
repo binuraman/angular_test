@@ -1,3 +1,12 @@
-<div class="well well-lg col-sm-6 col-sm-offset-3">
-
+<div>
+    <p class="questionnaire-question col-sm-6 col-sm-offset-3">{{questionNumber()}}. <span lazy-html="currQuest().question"></span></p>
+    <div class="well well-lg col-sm-6 col-sm-offset-3 answer-options">
+        <p>
+            <div ng-repeat="answeropt in currQuest().options">
+                <input id="radio_{{answeropt.id}}" type="radio" ng-model="currResponse().value" name="radio" value="{{answeropt.id}}" checked="checked">
+                <label for="radio_{{answeropt.id}}"><span><span></span></span>{{answerOptionNumber($index)}}. {{answeropt.answer}}</label>
+            </div>
+        </p>
+        <p><a class="btn btn-primary btn-lg btn-block" href="javascript:;" role="button" ng-click="goNext()" ng-disabled="formSubmitted">{{isLastQuestion() && "Submit Answers" || "Continue"}}</a></p>
+    </div>
 </div>

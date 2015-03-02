@@ -10,7 +10,7 @@ class UsersController extends ApiController {
     public $name = 'User';
     public $ip = false;
 
-    public function register(/*$username = '', $password = ''*/) {
+    public function register(/*$username = '', $password = ''/**/) {
         $this->User->setSource('users');
         $post = $this->getPostData();
         $username = empty($post['username'])?'':$post['username'];
@@ -72,7 +72,7 @@ class UsersController extends ApiController {
         $this->writeError('Unknown error occurred due to which user could not be logged in.', 650);
     }
 
-    public function login(/*$username, $password*/) {
+    public function login(/*$username = '', $password = ''/**/) {
         $this->User->setSource('users');
         $post = $this->getPostData();
         $username = empty($post['username'])?'':$post['username'];
@@ -112,7 +112,7 @@ class UsersController extends ApiController {
     public function profile($dummy = 'profile', $autoRedirectToLoginIfRequired = false) {
         unset($this->outputData['data']);
         if($this->Session->read('User.админ') != 'абсолютно' && $autoRedirectToLoginIfRequired){
-            $this->writeRedirect('#/login');
+            $this->writeRedirect('#/login', 'Session already expired. Please login again.');
         } else {
             $this->writeOutput();
         }

@@ -1,0 +1,43 @@
+<div>
+    <div class="col-sm-6 col-sm-offset-3" ng-show="formResponseFailure.mainform">
+        <div class="alert alert-danger" role="alert">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            <span class="sr-only">Error:</span>
+            {{formResponseFailure.mainform.errorString}}
+        </div>
+    </div>
+    <div class="col-sm-6 col-sm-offset-3" ng-show="scoreDetails().score">
+        <h2 class="questionnaire-question">You scored {{scoreDetails().score}}</h2>
+        <br>
+        <div ng-repeat="question in scoreDetails().answersheet">
+            <br>
+            <h4 class="questionnaire-question" lazy-html="(($index + 1) + '. ' + question.question)"></h4>
+            <div ng-switch="is_correct(question)">
+                <div ng-switch-when="true" class="alert alert-success" role="alert">
+                    <h4>Correct</h4>
+                    <p>{{getAnswerById(question, question.user_answer)}}</p>
+                </div>
+                <div ng-switch-when="false" class="alert alert-danger" role="alert">
+                    <h4>{{(question.user_answer == '') && "Your haven not answered this question." || "You answered incorrect."}}</h4>
+                    <p>{{getAnswerById(question, question.user_answer)}}</p>
+                    <br>
+                    <h4>Correct answer:</h4>
+                    <p>{{getAnswerById(question, question.correct_answer)}}</p>
+                </div>
+                <div ng-switch-when="0" class="alert alert-warning" role="alert">
+                    <h4>Correct answer is unknown.</h4>
+                    <p ng-show="question.user_answer == ''">You have not answered it either.</p>
+                    <div ng-show="question.user_answer != ''">
+                        <br>
+                        <h4>Your answer:</h4>
+                        <p>{{getAnswerById(question, question.user_answer)}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-sm-offset-3">
+        <br><br>
+        <p><a class="btn btn-primary btn-lg btn-block" href="javascript:;" role="button" ng-click="backHome()">Back to home screen</a></p>
+    </div>
+</div>

@@ -1,6 +1,11 @@
 <div class="well well-lg col-sm-4 col-sm-offset-4">
     <form name="logregform" id="logregform" novalidate autocomplete="off">
         <p><input type="email" class="form-control input-lg" placeholder="Email" ng-model="logreguser.username" name="username" autocomplete="off"></p>
+        <div class="alert alert-danger" role="alert" ng-show="errorDisplayAllowed && logregform.username.$invalid">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            <span class="sr-only">Error:</span>
+            Enter a valid email address
+        </div>
         <p><input type="password" maxlength="15" class="form-control input-lg" placeholder="Password" ng-model="logreguser.password" name="password" autocomplete="off"></p>
         <br/>
         <div class="alert alert-danger" role="alert" ng-show="formResponseFailure.mainform">
