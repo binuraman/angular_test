@@ -4,7 +4,7 @@
         <p>
             <div ng-repeat="answeropt in currQuest().options">
                 <input id="radio_{{answeropt.id}}" type="radio" ng-model="currResponse().value" name="radio" value="{{answeropt.id}}" checked="checked">
-                <label for="radio_{{answeropt.id}}"><span><span></span></span>{{answerOptionNumber($index)}}. {{answeropt.answer}}</label>
+                <label for="radio_{{answeropt.id}}"><span><span></span></span><text-data lazy-html="answerOptionNumber($index) + '. ' + answeropt.answer"></text-data></label>
             </div>
         </p>
         <p><a class="btn btn-primary btn-lg btn-block" href="javascript:;" role="button" ng-click="goNext()" ng-disabled="formSubmitted">{{isLastQuestion() && "Submit Answers" || "Continue"}}</a></p>

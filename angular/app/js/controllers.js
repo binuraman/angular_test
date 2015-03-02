@@ -72,6 +72,40 @@ angular.module('myApp.controllers', [])
                 alert('Unknown error occurred. Please retry.')
             });
         };
+
+        $scope.loadScoreCard = function (testid) {
+            Core.redirectTo('#/scorecard/'+testid);
+        };
+
+        delete($scope.formResponseFailure);
+        var scoretabledata = LogRegService.getData('api/dashboard/scoretable', {}, function () {
+            Core.processOutput(scoretabledata, function(data){
+                if((data instanceof Object) && (data.lists instanceof Object) && (data.lists.scoretable instanceof Object)) data = data.lists.scoretable;
+                scoretabledata = data;
+                if((scoretabledata instanceof Object) && (scoretabledata.columns instanceof Object)) {
+                    scoretabledata.fieldIndexes = Object.keys(scoretabledata.columns);
+                    if((scoretabledata.data instanceof Array) && (scoretabledata.data.length == 1) && (scoretabledata.data[0].score == "INCOMPLETE")) {
+                        scoretabledata.fieldIndexes = [];
+                        $scope.startQuistionnaire();
+                    } else {
+                        for(var i=0; i<scoretabledata.fieldIndexes.length; i++) {
+                            if(scoretabledata.fieldIndexes[i] == 'id') {
+                                scoretabledata.fieldIndexes.splice(i, 1);
+                                break;
+                            }
+                        }
+                    }
+                } else {
+                    scoretabledata.fieldIndexes = [];
+                    $scope.startQuistionnaire();
+                }
+            }, function(errors){
+                $scope.formResponseFailure = errors;
+            }, true);
+        })
+        $scope.scoreTable = function(){
+            return scoretabledata;
+        }
     }])
 
     .controller('QuestionnaireController', ['$scope', 'Core', 'LogRegService', function($scope, Core, LogRegService) {
@@ -86,7 +120,17 @@ angular.module('myApp.controllers', [])
             if((questions instanceof Object) && (questions.data instanceof Object) && (questions.data.dashboard instanceof Object) && (questions.data.dashboard.questionnaire instanceof Array)) {
                 questions = questions.data.dashboard.questionnaire;
                 for(var i=0; i<questions.length; i++){
-                    userResponse.push({value:''});
+                    if(questions[i].is_fib == "1") {
+                        var j = 0;
+                        userResponse.push({value:Array()});
+                        while(questions[i].question.search(/\{\-\}/) >= 0){
+                            userResponse[userResponse.length - 1].value.push("");
+                            questions[i].question = questions[i].question.replace(/\{\-\}/, "<input class='input-sm' type='text' ng-model='currResponse().value["+j+"]'>");
+                            j++;
+                        }
+                    } else {
+                        userResponse.push({value:''});
+                    }
                 }
             }
         }, function(){
@@ -113,6 +157,22 @@ angular.module('myApp.controllers', [])
         $scope.goNext = function(){
             if(currQuestion < questions.length-1) currQuestion++;
             else {
+                for(var i=0; i<userResponse.length; i++) {
+                    if(userResponse[i].value instanceof Array){
+                        var notEmpty = false;
+                        for(var j=0; j<userResponse[i].value.length; j++){
+                            if(userResponse[i].value[j] != "") {
+                                notEmpty = true;
+                                break;
+                            }
+                        }
+                        if(notEmpty) {
+                            userResponse[i].value = '"' + Core.escapeHTML(userResponse[i].value.join('", "')) + '"';
+                        } else {
+                            userResponse[i].value = "";
+                        }
+                    }
+                }
                 var response = LogRegService.postData('api/dashboard/questionnaire/saveresponse', {answers: JSON.stringify(userResponse)}, {}, function(){
                     Core.processOutput([response, $scope], function () {
                         Core.redirectTo('#/scorecard');
@@ -125,7 +185,7 @@ angular.module('myApp.controllers', [])
 
         $scope.questionNumber = function(){
             return currQuestion+1;
-        }
+        };
 
         $scope.answerOptionNumber = function(answerOptionIndex){
             if(isNaN(answerOptionIndex) || answerOptionIndex < 0) answerOptionIndex = 0;
@@ -158,7 +218,7 @@ angular.module('myApp.controllers', [])
         };
 
         $scope.backHome = function () {
-            Core.redirectTo('#/');
+            Core.redirectTo('#/', false, false, $scope);
         };
 
         $scope.is_correct = function (questionData) {

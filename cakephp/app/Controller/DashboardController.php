@@ -69,7 +69,7 @@ class DashboardController extends ApiController {
     public function scoretable_page($sortby = 'id', $ascdesc = 'asc'){
         $this->dashboard->setSource('tests');
 
-        $outputfields = explode(",", "date,score");
+        $outputfields = explode(",", "id,date,score");
 
         $queryOptions = array(
             "fields" => array(
@@ -135,14 +135,15 @@ class DashboardController extends ApiController {
         $queryOptions = array(
             "fields" => array(
                 "`dashboard`.`quest_id` as 'id'",
-                "`dashboard`.`question` as 'question'"
+                "`dashboard`.`question` as 'question'",
+                "`dashboard`.`is_fib`"
             ),
             "order" => '`dashboard`.`quest_id` ASC'
         );
         if($withAnswers) {
-            $queryOptions["fields"][] = "`dashboard`.`is_fib`";
             $queryOptions["fields"][] = "IF(`dashboard`.`is_fib` = '1', `dashboard`.`correct_answer_fib`, `dashboard`.`correct_answer_id`) as 'correct_answer'";
             $queryOptions["fields"][] = "IF(`dashboard`.`is_fib` = '1', `dashboard`.`correct_answer_fib`, '') as 'correct_answer_value'";
+            $queryOptions["fields"][] = "IF(`dashboard`.`is_fib` = '1', `dashboard`.`correct_answer_pattern_fib`, '') as 'correct_answer_pattern'";
         }
         $questions = $this->dashboard->find('all', $queryOptions);
 

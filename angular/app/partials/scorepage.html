@@ -11,18 +11,21 @@
         <br>
         <div ng-repeat="question in scoreDetails().answersheet">
             <br>
-            <h4 class="questionnaire-question" lazy-html="(($index + 1) + '. ' + question.question)"></h4>
+            <div ng-switch="question.is_fib">
+                <h4 ng-switch-when="1" class="questionnaire-question" lazy-html="($index + 1) + '. ' + (question.question | replace:('{-}'|regexp:'g'):'_____')"></h4>
+                <h4 ng-switch-default class="questionnaire-question" lazy-html="($index + 1) + '. ' + question.question"></h4>
+            </div>
             <div ng-switch="is_correct(question)">
                 <div ng-switch-when="true" class="alert alert-success" role="alert">
                     <h4>Correct</h4>
-                    <p>{{getAnswerById(question, question.user_answer)}}</p>
+                    <p lazy-html="getAnswerById(question, question.user_answer)"></p>
                 </div>
                 <div ng-switch-when="false" class="alert alert-danger" role="alert">
                     <h4>{{(question.user_answer == '') && "Your haven not answered this question." || "You answered incorrect."}}</h4>
-                    <p>{{getAnswerById(question, question.user_answer)}}</p>
+                    <p ng-show="question.user_answer != ''" lazy-html="getAnswerById(question, question.user_answer)"></p>
                     <br>
                     <h4>Correct answer:</h4>
-                    <p>{{getAnswerById(question, question.correct_answer)}}</p>
+                    <p lazy-html="getAnswerById(question, question.correct_answer)"></p>
                 </div>
                 <div ng-switch-when="0" class="alert alert-warning" role="alert">
                     <h4>Correct answer is unknown.</h4>
@@ -30,7 +33,7 @@
                     <div ng-show="question.user_answer != ''">
                         <br>
                         <h4>Your answer:</h4>
-                        <p>{{getAnswerById(question, question.user_answer)}}</p>
+                        <p lazy-html="getAnswerById(question, question.user_answer)"></p>
                     </div>
                 </div>
             </div>

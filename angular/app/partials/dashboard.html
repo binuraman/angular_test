@@ -1,5 +1,25 @@
 <div class="panel panel-default well-lg col-sm-6 col-sm-offset-3">
-    <div class="panel-body">
+    <div class="panel-body" ng-show="scoreTable().fieldIndexes[0]">
+        <div class="panel panel-default">
+            <div class="panel-heading"><strong>Previous Test Scores</strong></div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Sl. No.</th>
+                    <th ng-repeat="fieldIndex in scoreTable().fieldIndexes">{{scoreTable().columns[fieldIndex].title}}</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="listitem in scoreTable().data">
+                    <td>{{$index + 1}}</td>
+                    <td ng-repeat="fieldIndex in scoreTable().fieldIndexes">{{listitem[fieldIndex]}}</td>
+                    <td><a href="javascript:;" ng-click="loadScoreCard(listitem['id'])">View Details</a></td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
         <div class="alert alert-danger" role="alert" ng-show="formResponseFailure.mainform">
             <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
             <span class="sr-only">Error:</span>

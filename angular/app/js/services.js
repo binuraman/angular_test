@@ -9,7 +9,7 @@ angular.module('myApp.services', [])
     .factory('Core', function($location, $window) {
         var currUser = {data:{}};
         return {
-            redirectTo: function(targetLocation, allowHistroy, forceRouteChangeOnly){
+            redirectTo: function(targetLocation, allowHistroy, forceRouteChangeOnly, scope){
                 var targetURL = String(targetLocation).trim();
                 if(targetURL.substring(0, 1) == '#') {
                     $location.url(targetURL.substring(1));
@@ -19,9 +19,16 @@ angular.module('myApp.services', [])
                     $window.location = targetURL;
                 }
                 if (!allowHistroy) $location.replace();
+                if((scope instanceof Object) && (scope.$root instanceof Object) && (typeof scope.$root.$$phase == 'string') && scope.$root.$$phase != '$apply' && scope.$root.$$phase != '$digest') scope.$apply();
             },
             currentUser: function(){
                 return currUser.data;
+            },
+            escapeHTML: function escapeHTML(string){
+                var pre = document.createElement('pre');
+                var text = document.createTextNode( string );
+                pre.appendChild(text);
+                return pre.innerHTML;
             },
             processOutput: function(data, onSuccessCallback, onFailureCallback, onRedirectCallback, onCompleteCallback, scope){
                 if((data instanceof Array) && data.length > 1 && !scope) {
@@ -91,6 +98,7 @@ angular.module('myApp.services', [])
                         this.redirectTo('#/login');
                     }
                 }
+                if((scope instanceof Object) && (scope.$root instanceof Object) && (typeof scope.$root.$$phase == 'string') && scope.$root.$$phase != '$apply' && scope.$root.$$phase != '$digest') scope.$apply();
             }
         };
     })
